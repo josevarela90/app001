@@ -1,0 +1,78 @@
+<html>
+<head>
+
+ <title>Internet de las cosas</title>
+  
+   <!-- 
+  
+  NOTE: This plugin will not be visible on public views of a channel. 
+        If you intend to make your channel public, consider using the
+        MATLAB Visualization App to create your visualizations.
+  
+  -->  
+
+  %%PLUGIN_CSS%%
+  %%PLUGIN_JAVASCRIPT%%
+  
+</head>
+<body style="background-image: url(https://img.freepik.com/vector-gratis/fondo-monocromatico-blanco-estilo-papel_52683-66443.jpg?w=2000)" >
+  <header>
+    <center>
+    <h1 style="color: #000000;font-weight: bold">   
+Monitoring and irrigation of strawberry cultivation     
+</h1>
+      <h2 style="color: #000000;font-weight: bold">
+         Monitoring
+      </h2>
+ </center>
+
+        </header> 
+
+<center>
+<iframe width="435" height="230" style="border: 3px solid #258D10;" src="https://thingspeak.com/channels/1786076/charts/1?bgcolor=%23ffffff&color=%230037FF&dynamic=true&results=400&type=line&update=5"></iframe>
+<iframe width="435" height="230" style="border: 3px solid #258D10;" src="https://thingspeak.com/channels/1786076/charts/2?bgcolor=%23ffffff&color=%230037FF&dynamic=true&results=400&type=line&update=5"></iframe>
+<iframe width="435" height="230" style="border: 3px solid #258D10;" src="https://thingspeak.com/channels/1786076/charts/3?bgcolor=%23ffffff&color=%230037FF&dynamic=true&results=400&type=line&update=5"></iframe>
+
+  <h2 style="color: #000000;font-weight: bold">
+         Irrigation
+  </h2>
+  <iframe width="435" height="230" style="border: 3px solid #258D10;" src="https://thingspeak.com/channels/1786076/charts/4?bgcolor=%23ffffff&color=%239B00FF&dynamic=true&results=400&type=line&update=1"></iframe>
+    </center>
+
+<br>
+<p align="center"> <button style= "font-size : 25px; background-color: #6DDC68;  border-radius: 8px; width:100px; height:50px "   type="button" id="light-on" class="buttonON" >ON</button>
+  <button  style= "font-size : 25px; background-color: #DC6868;  border-radius: 8px;width:100px; height:50px"  type="button" id="light-off" class="buttonOFF" >OFF</button> <label id="estado" style="color: red"></label><br>  </center>  
+<br>
+<br>
+  <h2 style="color: #06DD1D" strong><u>.</u></h2>
+</body>
+<script> 
+  //AL DAR CLICK EN EL BOTON ENCENDER EJECUTA LO SIGUIENTE
+ $('#light-on').on('click', () => {
+                    
+                   //LLAMA ALA FUNCION CON EL LINK PUESTO EN 1 PARA PRENDER
+    const Http = new XMLHttpRequest();
+const url='https://api.thingspeak.com/update?api_key=5ZYKJ1C0PC9COFVD&field4=1';
+Http.open("GET", url);
+Http.send();
+  //CUANDO YA CARGA EL LINK DEVUELVE EL RESULTADO SEA 0 O UN NUMERO QUE SIGNIFICA QUE ENCENDIO
+Http.onreadystatechange = (e) => {
+  $("#estado").text(Http.responseText)
+}
+  });
+  
+  //LO MISMO QUE EL BOTON ENCENDIDO PERO EL LINK EN 0 PARA APAGAR
+  //
+   $('#light-off').on('click', () => {
+                   
+    
+    const Http = new XMLHttpRequest();
+const url='https://api.thingspeak.com/update?api_key=5ZYKJ1C0PC9COFVD&field4=0';
+Http.open("POST", url);
+Http.send();
+
+Http.onreadystatechange = (e) => {
+   $("#estado").text(Http.responseText)
+}
+  });
+</script>
